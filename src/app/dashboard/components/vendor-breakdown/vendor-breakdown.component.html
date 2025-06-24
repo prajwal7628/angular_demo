@@ -1,0 +1,29 @@
+<div class="vendor-breakdown">
+  <div class="d-flex justify-content-between align-items-center">
+    <div class="d-flex flex-wrap text-start ms-3">
+      <div class="black-bg">
+        <img src="" alt="">
+      </div>
+      <div class="ms-3">
+        <p class="monitor-title mb-0">Vendors breakdown</p>
+        <p class="monitor-card-subtitle">Keep track of vendors and their security ratings.</p>
+      </div>
+    </div>
+    <div>
+      <button class="btn">
+        <i class="bi bi-three-dots-vertical"></i>
+      </button>
+    </div>
+  </div>
+  <hr>
+  <div id="chart">
+    <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [dataLabels]="chartOptions.dataLabels"
+      [plotOptions]="chartOptions.plotOptions" [yaxis]="chartOptions.yaxis" [xaxis]="chartOptions.xaxis"
+      [fill]="chartOptions.fill" [title]="chartOptions.title"></apx-chart>
+  </div>
+  <hr>
+  <div class="d-flex justify-content-end align-items-center">
+    <button class="btn btn-outline-dark d-flex align-items-center"> View full report
+    </button>
+  </div>
+</div>

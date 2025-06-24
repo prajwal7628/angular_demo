@@ -1,0 +1,46 @@
+@use 'colors' as *;
+
+.sidebar {
+  width: 64px;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  background: $white;
+  border-right: 1px solid $light-border-gray;
+  z-index: 100;
+}
+
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  border: none;
+  font-size: 1.25rem;
+  color: $icon-color;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+
+  &:hover {
+    background-color:$icon-hover-color;
+    color: $primary-black;
+  }
+
+  &.active {
+    background-color: $icon-hover-color;
+    color: $icon-active-color;
+  }
+}
+
+.profile-img {
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
+  border: 2px solid $white;
+}
+
+.status-indicator {
+  width: 10px;
+  height: 10px;
+}

@@ -1,0 +1,36 @@
+@use 'colors' as *;
+
+.team-members{
+  border: solid 1px $light-border-gray;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1),
+              0 1px 2px rgba(0, 0, 0, 0.06);
+
+.table-title  {
+  color: $primary-black;
+  font-weight: 600;
+  font-size: medium;
+}          
+table {
+  th {
+    font-weight: 500;
+  }
+  td {
+    vertical-align: middle;
+  }
+}
+
+.badge {
+  font-size: 0.75rem;
+  padding: 0.35em 0.6em;
+}
+
+.progress {
+  margin-bottom: 0.25rem;
+}
+
+.delete-text{
+  color:$light-border-gray ;
+}
+}

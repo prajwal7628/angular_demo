@@ -1,0 +1,176 @@
+<div class="team-members">
+
+    <div class="d-flex justify-content-between align-items-center">
+        <p class="table-title mb-0">Team Members: <span class="badge bg-light text-primary me-1">{{ members.length
+                }}</span></p>
+        <div>
+            <button class="btn">
+                <i class="bi bi-three-dots-vertical"></i>
+            </button>
+        </div>
+    </div>
+    <hr>
+
+    <!-- Table -->
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" [checked]="allSelected" (change)="toggleAllSelection()" /></th>
+                    <th *ngFor="let col of columns" scope="col" [ngClass]="{
+                        'text-end': col.align === 'right',
+                        'text-center': col.align === 'center'
+                    }">{{ col.column_name }}
+                        @if(col.sortable){
+                        <span class="sort-icon">
+                            <i class="bi bi-sort-alpha-down"></i>
+                        </span>
+                        }
+                    </th>
+                </tr>
+
+            </thead>
+            <tbody>
+                @if(isLoading){
+                <tr>
+                    <td colspan="6" class="text-center">Loading...</td>
+                </tr>
+                }
+                @if(!isLoading && members.length > 0){
+                @for(m of pagedMembers;track m){
+                <tr>
+                    <td><input type="checkbox" [(ngModel)]="m.selected" (change)="updateMasterCheckbox()"></td>
+
+                    <td class="d-flex align-items-center">
+                        <div>
+                            <div class="fw-semibold">{{ m.name.first_name }} {{ m.name.last_name }}</div>
+                            <small class="text-muted">{{ m.name.handle }}</small>
+                        </div>
+                    </td>
+
+                    <td>
+                        <span class="badge" [ngClass]="{
+                                    'bg-success text-light': m.status === 'Customer',
+                                    'bg-secondary text-light': m.status === 'Churned'
+                                }">
+                            {{ m.status }}
+                        </span>
+                    </td>
+
+                    <td>{{ m.role }}</td>
+
+                    <td class="w-25">
+                        <div class="progress" style="height: 6px;">
+                            <div class="progress-bar bg-primary" role="progressbar" [style.width.%]="m.license_used"
+                                [attr.aria-valuenow]="m.license_used" aria-valuemin="0" aria-valuemax="100">
+                            </div>
+                        </div>
+                        <small class="text-muted">{{ m.license_used }}%</small>
+                    </td>
+
+                    <td>
+                        <ng-container *ngFor="let t of m.teams">
+                            <span class="badge me-1" [ngStyle]="{
+                                        'color': t.text_color,
+                                        'background-color': t.background_color
+                                    }">
+                                {{ t.value }}
+                            </span>
+                        </ng-container>
+                    </td>
+                    <td class="text-end">
+                        <button class="btn btn-sm btn-outline-danger me-2" (click)="onDeleteHandle(deleteModal,m)">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-secondary" (click)="onEditHandle(editModal,m)">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                    </td>
+                </tr>
+                }
+                } @else{
+                <tr>
+                    <td colspan="6" class="text-center">No Members Found</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    <nav aria-label="Page navigation">
+        <div class="d-flex align-items-center">
+            <div class="me-auto">
+                <button class="btn btn-outline-primary" [disabled]="page === 1" (click)="setPage(page - 1)">
+                    Previous
+                </button>
+            </div>
+
+            <ul class="pagination mb-0">
+                <li class="page-item" *ngFor="let _ of [].constructor(totalPages); let i = index"
+                    [class.active]="page === i + 1">
+                    <button class="page-link" (click)="setPage(i + 1)">
+                        {{ i + 1 }}
+                    </button>
+                </li>
+            </ul>
+
+            <div class="ms-auto">
+                <button class="btn btn-outline-primary" [disabled]="page === totalPages" (click)="setPage(page + 1)">
+                    Next
+                </button>
+            </div>
+        </div>
+    </nav>
+</div>
+<!-- Edit Modal -->
+<ng-template #editModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Member Details</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        @if(editedMember){
+        <div class="text-center">
+            <h5 class="mb-1">{{ editedMember.name.first_name }} {{ editedMember.name.last_name }}</h5>
+            <p class="text-muted mb-3">{{ editedMember.role }}</p>
+
+            <span class="badge px-3 py-2 mb-4" [ngClass]="{
+          'bg-success': editedMember.status === 'Customer',
+          'bg-secondary': editedMember.status === 'Churned'
+        }">
+                {{ editedMember.status }}
+            </span>
+        </div>
+        <div class="row text-start">
+            <div class="col-4 fw-semibold mt-2">Teams:</div>
+            <div class="col-8 mt-2">
+                <ng-container *ngFor="let t of editedMember.teams">
+                    <span class="badge me-1" [ngStyle]="{
+                            'color': t.text_color,
+                            'background-color': t.background_color
+                        }">
+                        {{ t.value }}
+                    </span>
+                </ng-container>
+            </div>
+        </div>
+        }
+    </div>
+</ng-template>
+<!-- Delete Modal -->
+<ng-template #deleteModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Delete Member</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <h6 class="delete-text fw-normal">Are you sure you want to delete <span
+                class="fw-semibold text-decoration-underline"> {{ deletedMember?.name?.first_name }} {{
+                deletedMember?.name?.last_name }}</span></h6>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('Cross click')">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="deleteMember()">Delete</button>
+    </div>
+</ng-template>

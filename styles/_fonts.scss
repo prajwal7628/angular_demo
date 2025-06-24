@@ -1,0 +1,17 @@
+$primary-font: 'Poppins', sans-serif;
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span,
+div,
+button,
+label,
+input,
+select,
+textarea {
+  font-family: $primary-font;
+}

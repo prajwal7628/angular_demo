@@ -1,0 +1,29 @@
+<div class="vendor-monitor">
+    <div class="d-flex justify-content-between align-items-center">
+        <div class="text-start ms-3">
+            <p class="monitor-title mb-0">Vendors Monitored</p>
+            <p class="monitor-card-subtitle">You've used 80% of available spots.</p>
+        </div>
+        <div>
+            <button class="btn">
+                <i class="bi bi-three-dots-vertical"></i>
+            </button>
+        </div>
+    </div>
+    <hr>
+    <div id="chart" class="mt-4 mb-2">
+        <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [plotOptions]="chartOptions.plotOptions"
+            [labels]="chartOptions.labels" [fill]="chartOptions.fill"></apx-chart>
+    </div>
+    <div class="text-start ms-3">
+        <p class="monitor-card-title mb-0">You've almost reached your limit</p>
+        <p class="monitor-card-subtitle">You've used 80% of available spots. <br /> Upgrade plan to monitor more
+            vendors.</p>
+    </div>
+    <hr>
+    <div class="d-flex justify-content-end align-items-center">
+        <button class="btn btn-outline-dark d-flex align-items-center">
+            <i class="bi bi-arrow-bar-up me-1"></i> Upgrade
+        </button>
+    </div>
+</div>
